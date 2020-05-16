@@ -4,7 +4,7 @@ using System.Collections.Generic;
 [RequireComponent(typeof(Rigidbody))]
 public class Character : MonoBehaviour
 {
-    private float speed = 1;
+    private float speed = 48;
     private List<GameObject> waypoints = new List<GameObject>();
     private GameObject waypointPrefab;
     private Rigidbody rb;
@@ -37,11 +37,11 @@ public class Character : MonoBehaviour
         }
 
         //  Moves the player.
-        Vector3 direction = Vector3.zero;
+        Vector3 direction = rb.velocity.normalized;
         while (waypoints.Count > 1)
         {
             direction = waypoints[0].transform.position - transform.position;
-            if (direction.magnitude > 1 / 16)
+            if (direction.magnitude > 1)
             {
                 direction.Normalize();
                 break;
