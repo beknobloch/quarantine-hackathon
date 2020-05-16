@@ -9,7 +9,7 @@ public class Character : MonoBehaviour
     private GameObject waypointPrefab;
     private Rigidbody rb;
     private bool drawingLine = false;
-    private Vector2 moveVector = Vector2.zero;
+    private Vector3 moveVector = Vector3.zero;
 
 
     private void Awake()
@@ -18,7 +18,7 @@ public class Character : MonoBehaviour
         rb = gameObject.GetComponent<Rigidbody>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
 
         //  Creates waypoints.
@@ -39,7 +39,7 @@ public class Character : MonoBehaviour
                 waypoints.Add(Instantiate(waypointPrefab, Helpers.Vector3To2(hitInfo.point), Quaternion.identity));
                 drawingLine = true;
             }
-            else if (drawingLine && waypoints.Count > 0 && Vector3.Distance(waypoints[waypoints.Count - 1].transform.position, hitInfo.point) > .25f)
+            else if (drawingLine && waypoints.Count > 0 && Vector3.Distance(waypoints[waypoints.Count - 1].transform.position, hitInfo.point) > .5f)
             {
                 waypoints.Add(Instantiate(waypointPrefab, Helpers.Vector3To2(hitInfo.point), Quaternion.identity));
             }
@@ -50,8 +50,8 @@ public class Character : MonoBehaviour
 
         //  Moves the player.
         if(waypoints.Count > 1){
-            moveVector = Vector2.MoveTowards(transform.position, waypoints[0].transform.position, speed * Time.deltaTime);
-            if(transform.position == waypoints[0].transform.position){
+            moveVector = waypoints[0].transform.position - transform.position;
+            if(moveVector.magnitude < .25){
                 Destroy(waypoints[0]);
                 waypoints.RemoveAt(0);
             }
@@ -61,7 +61,8 @@ public class Character : MonoBehaviour
             waypoints.Clear();
         }
 
-        transform.position = moveVector;
-
+        rb.velocity = Vector3.zero;
+        rb.AddForce(speed * moveVector.normalized, ForceMode.VelocityChange);
+        print(rb.velocity);
     }
 }
