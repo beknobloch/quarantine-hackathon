@@ -49,16 +49,14 @@ public class Character : MonoBehaviour
         }
 
         //  Moves the player.
-        if(waypoints.Count > 1){
+        if(waypoints.Count > 0){
             moveVector = waypoints[0].transform.position - transform.position;
-            if(moveVector.magnitude < .25){
-                Destroy(waypoints[0]);
-                waypoints.RemoveAt(0);
+            if(waypoints.Count > 1 || (waypoints.Count == 1 && !drawingLine)){
+                if(moveVector.magnitude < .25){
+                    Destroy(waypoints[0]);
+                    waypoints.RemoveAt(0);
+                }
             }
-        }
-        else if(waypoints.Count == 1 && !drawingLine){
-            Destroy(waypoints[0]);
-            waypoints.Clear();
         }
 
         rb.velocity = Vector3.zero;
