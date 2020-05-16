@@ -9,6 +9,7 @@ public class Character : MonoBehaviour
     private GameObject waypointPrefab;
     private Rigidbody rb;
     private bool drawingLine = false;
+    private Vector2 moveVector = Vector2.zero;
 
 
     private void Awake()
@@ -49,7 +50,7 @@ public class Character : MonoBehaviour
 
         //  Moves the player.
         if(waypoints.Count > 1){
-            transform.position = Vector2.MoveTowards(transform.position, waypoints[0].transform.position, speed * Time.deltaTime);
+            moveVector = Vector2.MoveTowards(transform.position, waypoints[0].transform.position, speed * Time.deltaTime);
             if(transform.position == waypoints[0].transform.position){
                 Destroy(waypoints[0]);
                 waypoints.RemoveAt(0);
@@ -59,6 +60,8 @@ public class Character : MonoBehaviour
             Destroy(waypoints[0]);
             waypoints.Clear();
         }
+
+        transform.position = moveVector;
 
     }
 }
