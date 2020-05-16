@@ -4,7 +4,7 @@ using System.Collections.Generic;
 [RequireComponent(typeof(Rigidbody))]
 public class Character : MonoBehaviour
 {
-    private float speed = 48;
+    private float speed = 32;
     private List<GameObject> waypoints = new List<GameObject>();
     private GameObject waypointPrefab;
     private Rigidbody rb;
@@ -45,15 +45,15 @@ public class Character : MonoBehaviour
         }
         else if(drawingLine){
             drawingLine = false;
-            Debug.Log("entering");
         }
 
         //  Moves the player.
         Vector3 direction = rb.velocity.normalized;
-        while (waypoints.Count > 1)
+        while (waypoints.Count > 0 && !Input.GetMouseButton(0) || waypoints.Count > 1)
         {
             direction = waypoints[0].transform.position - transform.position;
-            if (direction.magnitude > 1)
+			print(direction.magnitude);
+            if (direction.magnitude > .5)
             {
                 direction.Normalize();
                 break;
