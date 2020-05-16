@@ -18,11 +18,15 @@ public class Character : MonoBehaviour
         {
             RaycastHit hitInfo;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (waypoints.Count == 0 && Vector3.Distance(transform.position, Input.mousePosition) < .20f)
+			bool hit = Physics.Raycast(ray, out hitInfo);
+
+			if (!hit) return;
+
+			if (hitInfo.collider.tag.Equals("Character"))
             {
-                waypoints.Add(Instantiate(waypointPrefab, transform));
+                waypoints.Add(Instantiate(waypointPrefab, hitInfo.point, Quaternion.identity));
             }
-            else if (Physics.Raycast(ray, out hitInfo) && Vector3.Distance(waypoints[waypoints.Count - 1].transform.position, hitInfo.point) > .25f)
+            else if (waypoints.Count != 0 && Vector3.Distance(waypoints[waypoints.Count - 1].transform.position, hitInfo.point) > .25f)
             {
                 waypoints.Add(Instantiate(waypointPrefab, hitInfo.point, Quaternion.identity));
             }
