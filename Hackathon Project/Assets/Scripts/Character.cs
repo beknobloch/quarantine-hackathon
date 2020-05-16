@@ -4,11 +4,12 @@ using System.Collections.Generic;
 [RequireComponent(typeof(Rigidbody))]
 public class Character : MonoBehaviour
 {
-    private float speed = 32;
+    private float speed = 25;
     private List<GameObject> waypoints = new List<GameObject>();
     private GameObject waypointPrefab;
     private Rigidbody rb;
     private bool drawingLine = false;
+    private Vector2 moveVector = Vector2.zero;
 
 
     private void Awake()
@@ -38,7 +39,7 @@ public class Character : MonoBehaviour
                 waypoints.Add(Instantiate(waypointPrefab, Helpers.Vector3To2(hitInfo.point), Quaternion.identity));
                 drawingLine = true;
             }
-            else if (drawingLine && waypoints.Count != 0 && Vector3.Distance(waypoints[waypoints.Count - 1].transform.position, hitInfo.point) > .25f)
+            else if (drawingLine && waypoints.Count > 0 && Vector3.Distance(waypoints[waypoints.Count - 1].transform.position, hitInfo.point) > .25f)
             {
                 waypoints.Add(Instantiate(waypointPrefab, Helpers.Vector3To2(hitInfo.point), Quaternion.identity));
             }
@@ -48,20 +49,19 @@ public class Character : MonoBehaviour
         }
 
         //  Moves the player.
-        Vector3 direction = rb.velocity.normalized;
-        while (waypoints.Count > 0 && !Input.GetMouseButton(0) || waypoints.Count > 1)
-        {
-            direction = waypoints[0].transform.position - transform.position;
-			print(direction.magnitude);
-            if (direction.magnitude > .5)
-            {
-                direction.Normalize();
-                break;
+        if(waypoints.Count > 1){
+            moveVector = Vector2.MoveTowards(transform.position, waypoints[0].transform.position, speed * Time.deltaTime);
+            if(transform.position == waypoints[0].transform.position){
+                Destroy(waypoints[0]);
+                waypoints.RemoveAt(0);
             }
+        }
+        else if(waypoints.Count == 1 && !drawingLine){
             Destroy(waypoints[0]);
-            waypoints.RemoveAt(0);
+            waypoints.Clear();
         }
 
-        rb.AddForce(speed * direction - rb.velocity, ForceMode.VelocityChange);
+        transform.position = moveVector;
+
     }
 }
