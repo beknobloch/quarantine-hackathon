@@ -16,13 +16,13 @@ public class Character : MonoBehaviour
     {
         if (Input.GetMouseButton(0))
         {
-            if (waypoints.Count == 0)
+            RaycastHit hitInfo;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (waypoints.Count == 0 && Vector3.Distance(transform.position, Input.mousePosition) < .20f)
             {
                 waypoints.Add(Instantiate(waypointPrefab, transform));
             }
-            RaycastHit hitInfo;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hitInfo) && Vector3.Distance(waypoints[waypoints.Count - 1].transform.position, hitInfo.point) > .25f)
+            else if (Physics.Raycast(ray, out hitInfo) && Vector3.Distance(waypoints[waypoints.Count - 1].transform.position, hitInfo.point) > .25f)
             {
                 waypoints.Add(Instantiate(waypointPrefab, hitInfo.point, Quaternion.identity));
             }
