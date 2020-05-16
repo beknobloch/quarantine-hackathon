@@ -1,8 +1,8 @@
-﻿<Properties>
+﻿<Properties StartupConfiguration="{8262CADA-FA15-22AF-A0D7-A71EF595345F}|">
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Character.cs">
     <Files>
-      <File FileName="Assets/Scripts/Character.cs" Line="48" Column="1" />
       <File FileName="Assets/Scripts/Helpers.cs" Line="5" Column="26" />
+      <File FileName="Assets/Scripts/Character.cs" Line="68" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
