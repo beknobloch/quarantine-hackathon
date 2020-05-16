@@ -8,6 +8,8 @@ public class Character : MonoBehaviour
     private List<GameObject> waypoints = new List<GameObject>();
     private GameObject waypointPrefab;
     private Rigidbody rb;
+    private bool drawingLine = false;
+
 
     private void Awake()
     {
@@ -17,6 +19,7 @@ public class Character : MonoBehaviour
 
     void Update()
     {
+
         //  Creates waypoints.
         if (Input.GetMouseButton(0))
         {
@@ -26,14 +29,23 @@ public class Character : MonoBehaviour
 
 			if (!hit) return;
 
-			if (hitInfo.collider.tag.Equals("Character"))
+			if (!drawingLine && hitInfo.collider.tag.Equals("Character"))
+            {
+                foreach(GameObject wp in waypoints){
+                    Destroy(wp);
+                }
+                waypoints.Clear();
+                waypoints.Add(Instantiate(waypointPrefab, Helpers.Vector3To2(hitInfo.point), Quaternion.identity));
+                drawingLine = true;
+            }
+            else if (drawingLine && waypoints.Count != 0 && Vector3.Distance(waypoints[waypoints.Count - 1].transform.position, hitInfo.point) > .25f)
             {
                 waypoints.Add(Instantiate(waypointPrefab, Helpers.Vector3To2(hitInfo.point), Quaternion.identity));
             }
-            else if (waypoints.Count != 0 && Vector3.Distance(waypoints[waypoints.Count - 1].transform.position, hitInfo.point) > .25f)
-            {
-                waypoints.Add(Instantiate(waypointPrefab, Helpers.Vector3To2(hitInfo.point), Quaternion.identity));
-            }
+        }
+        else if(drawingLine){
+            drawingLine = false;
+            Debug.Log("entering");
         }
 
         //  Moves the player.
