@@ -21,12 +21,12 @@ public class Character : MonoBehaviour
     private Vector3 moveVector = Vector3.zero;
     private bool hasBeenLoaded = false;
 
-    private static int GLOBAL_TIMER= 0;
+    private float GLOBAL_TIMER= 0.0f;
 
-    private List<int> timerStartValue = new List<int>(){
-        0,
-        0,
-        0
+    private List<float> timerStartValue = new List<float>(){
+        0.0f,
+        0.0f,
+        0.0f
     };
 
     private List<bool> timerEvents = new List<bool>(){
@@ -118,7 +118,7 @@ public class Character : MonoBehaviour
 
 	void Update()
 	{
-        GLOBAL_TIMER ++;
+        GLOBAL_TIMER += Time.deltaTime;
         //  Determines when to move the character into the screen.
         if(Time.timeSinceLevelLoad >= timeBeforeSpawn && !hasBeenLoaded)
 		{
@@ -275,7 +275,7 @@ public class Character : MonoBehaviour
 
         //timer conditions
         //handsanitizer
-        if (timerEvents[0] && GLOBAL_TIMER - timerStartValue[0]>=600){
+        if (timerEvents[0] && GLOBAL_TIMER - timerStartValue[0]>=10.0){
 
             Debug.Log("Yeet");
             //set back to default (ADJUST VALUES)
@@ -285,14 +285,14 @@ public class Character : MonoBehaviour
         }
 
         //toilet paper
-        if (timerEvents[1] && GLOBAL_TIMER - timerStartValue[1]>=600){
+        if (timerEvents[1] && GLOBAL_TIMER - timerStartValue[1]>=10.0){
 
             speed = speed - 5;
             rend.color = Color.red;
 
             
         }
-        if (timerEvents[2] && GLOBAL_TIMER - timerStartValue[2]>=600)
+        if (timerEvents[2] && GLOBAL_TIMER - timerStartValue[2]>=5.0)
         {
             radius = radius * 2;
             rend.color = Color.red;
@@ -301,15 +301,15 @@ public class Character : MonoBehaviour
         //sneezing person
         if (type.Equals("sick"))
         {
-            if (GLOBAL_TIMER - timerStartValue[3]>=300)
+            if (GLOBAL_TIMER - timerStartValue[3]>=5.0)
             {
                 //some alarm
             }
-            if (GLOBAL_TIMER - timerStartValue[3] >=415)
+            if (GLOBAL_TIMER - timerStartValue[3] >=6.915)
                 {
                 speed = DEF_SPEED;
             }
-            else if (GLOBAL_TIMER - timerStartValue[3] >= 400)
+            else if (GLOBAL_TIMER - timerStartValue[3] >= 6.500)
             {
                 speed = 0;
             }
