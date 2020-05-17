@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Flag : MonoBehaviour
 {
-
+    [SerializeField]
     private string color;
 
     // Update is called once per frame
@@ -12,5 +12,9 @@ public class Flag : MonoBehaviour
     {
         if(collision.gameObject.tag == "character" && collision.gameObject.tag == color){
         }
+    }
+
+    public string getColor(){
+        return color;
     }
 }
