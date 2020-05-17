@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using System;
 
 [RequireComponent(typeof(Rigidbody))]
 public class Character : MonoBehaviour
 {
     private float speed = 32;
+    private float tempSpeed = 0;
     private float radius = 0;
     private List<GameObject> waypoints = new List<GameObject>();
     private GameObject waypointPrefab;
@@ -17,9 +19,15 @@ public class Character : MonoBehaviour
 
     private int tPTimer = 0;
 
+    private int sTimer = 0;
+
+    private int sickTimer = 0;
+
     private bool handSanitized = false;
 
     private bool toiletPapered = false;
+
+    private bool sinked = false;
 
     private bool finished = false;
     private int deliveryFlags;
@@ -45,49 +53,49 @@ public class Character : MonoBehaviour
         waypointPrefab = (GameObject)Resources.Load("Prefabs/Waypoint");
         rb = gameObject.GetComponent<Rigidbody>();
 
-        if(type == "masked"){
+        if(type.Equals("masked")){
             speed = 25;
             radius = 1f;
         }
-        else if(type == "unmasked")
+        else if(type.Equals("unmasked"))
         {
             speed = 25;
             radius = 2f;
         }
-        else if(type == "kid")
+        else if(type.Equals("kid"))
         {
             speed = 32;
             radius = 1f;
         }
-        else if(type == "sick")
+        else if(type.Equals("sick"))
         {
             speed = 18;
             radius = 2f;
         }
-        else if(type == "old")
+        else if(type.Equals("old"))
         {
             speed = 18;
             radius = 2f;
         }
-        else if(type == "delivery")
+        else if(type.Equals("delivery"))
         {
             speed = 25;
             radius = 1f;
         }
 
-        if(startingDirection == "left")
+        if(startingDirection.Equals("left"))
 		{
             startingVector = Vector3.left;
 		}
-        else if(startingDirection == "up")
+        else if(startingDirection.Equals("up"))
 		{
             startingVector = Vector3.up;
 		}
-        else if(startingDirection == "right")
+        else if(startingDirection.Equals("right"))
 		{
             startingVector = Vector3.right;
 		}
-		else
+		else if(startingDirection.Equals("down"))
 		{
             startingVector = Vector3.down;
 		}
@@ -138,12 +146,7 @@ public class Character : MonoBehaviour
             if (hSTimer >= 600){
                 Debug.Log("Yeet");
                 //set back to default (ADJUST VALUES)
-                if (type == "masked"){
-                    radius = 1f;
-                }
-                else {
-                    radius = 0;
-                }
+                radius = radius * 2;
                  
                 handSanitized = false;
                 rend.color = Color.red;
@@ -156,19 +159,48 @@ public class Character : MonoBehaviour
 
             if (tPTimer >= 600){
 
-                if (type == "masked"){
-                    speed = 25;
-                }
-                else {
-                    speed = 32;
-                }
+                speed = speed - 5;
 
 
                 toiletPapered = false;
                 rend.color = Color.red;
             }
         }
-	}
+        if (sinked)
+        {
+            sTimer++;
+            if(sTimer >=600)
+            {
+                radius = radius * 2;
+                sinked = false;
+                rend.color = color.red;
+            }
+        }
+        //sneezing person
+        if (type.Equals("sick"))
+        {
+            sickTimer++;
+            if (sickTimer >= 300)
+            {
+                //some alarm
+            }
+            if (sickTimer >=405)
+                {
+                tempSpeed = speed;
+                speed = 0;
+                sickTimer = 0;
+            }
+            else if (sickTimer >= 400)
+            {
+                speed = tempSpeed;
+                tempSpeed = 0;
+            }
+        }
+    }
+
+        
+
+
         //  Moves the player.
     void FixedUpdate()
 	{
@@ -224,7 +256,7 @@ public class Character : MonoBehaviour
             //Decrease radius for set amount of time
             Debug.Log("3");
             Destroy(collision.gameObject);
-            radius = 1; //change value as needed
+            radius = radius/2; //change value as needed
             hSTimer = 0;
             handSanitized = true;
             rend.color = Color.green; 
@@ -235,10 +267,19 @@ public class Character : MonoBehaviour
             //increase speed for set amount of time
             Debug.Log("4");
             Destroy(collision.gameObject);
-            speed = speed+speed; //change value as needed
+            speed = speed+5; //change value as needed
             tPTimer = 0;
             toiletPapered = true;
             rend.material.color = Color.black;
+        }
+        else if (collision.gameObject.CompareTag("Sink"))
+        {
+            Debug.Log("5");
+            Destroy(collision.gameObject);
+            radius = radius/2; //change value as needed
+            hSTimer = 0;
+            sinked = true;
+            rend.color = Color.blue;
         }
         else
         {
