@@ -303,13 +303,13 @@ public class Character : MonoBehaviour
             {
                 //some alarm
             }
-            if (GLOBAL_TIMER - timerStartValue[3] >=405)
+            if (GLOBAL_TIMER - timerStartValue[3] >=415)
                 {
-                speed = 0;
+                speed = DEF_SPEED;
             }
             else if (GLOBAL_TIMER - timerStartValue[3] >= 400)
             {
-                speed = DEF_SPEED;
+                speed = 0;
             }
         }
     }
