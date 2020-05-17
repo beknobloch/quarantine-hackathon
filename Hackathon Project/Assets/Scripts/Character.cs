@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 [RequireComponent(typeof(Rigidbody))]
 public class Character : MonoBehaviour
 {
+    private LevelGameControl gamecontrol;
     private float speed = 32;
     private float radius = 0;
     private List<GameObject> waypoints = new List<GameObject>();
@@ -24,6 +25,8 @@ public class Character : MonoBehaviour
 
     private void Awake()
     {
+        gamecontrol = GameObject.Find("GameControl").GetComponent<LevelGameControl>();
+
         waypointPrefab = (GameObject)Resources.Load("Prefabs/Waypoint");
         rb = gameObject.GetComponent<Rigidbody>();
 
@@ -70,7 +73,7 @@ public class Character : MonoBehaviour
 
 			if (!hit) return;
 
-			if (!drawingLine && hitInfo.collider.gameObject.Equals(gameObject))
+			if (!drawingLine && !gamecontrol.currentlyDrawing && hitInfo.collider.gameObject.Equals(gameObject))
 			{
 				foreach (GameObject wp in waypoints) {
 					Destroy(wp);
@@ -78,7 +81,8 @@ public class Character : MonoBehaviour
 				waypoints.Clear();
 				waypoints.Add(Instantiate(waypointPrefab, Helpers.Vector3To2(hitInfo.point), Quaternion.identity));
 				drawingLine = true;
-			}
+                gamecontrol.currentlyDrawing = true;
+            }
 			else if (drawingLine && waypoints.Count > 0 && Vector3.Distance(waypoints[waypoints.Count - 1].transform.position, hitInfo.point) > .5f)
 			{
 				waypoints.Add(Instantiate(waypointPrefab, Helpers.Vector3To2(hitInfo.point), Quaternion.identity));
@@ -86,7 +90,8 @@ public class Character : MonoBehaviour
 		}
 		else if (drawingLine) {
 			drawingLine = false;
-		}
+            gamecontrol.currentlyDrawing = false;
+        }
 	}
         //  Moves the player.
     void FixedUpdate()
@@ -126,7 +131,7 @@ public class Character : MonoBehaviour
 			}
             waypoints.Clear();
             finished = true;
-            GameObject.Find("GameControl").GetComponent<LevelGameControl>().checkIfWon();
+            gamecontrol.checkIfWon();
             gameObject.SetActive(false);
         }
         else
@@ -150,7 +155,7 @@ public class Character : MonoBehaviour
 			}
 
 
-            GameObject.Find("GameControl").GetComponent<LevelGameControl>().levelLost();
+            gamecontrol.levelLost();
         }
 	}
 }
