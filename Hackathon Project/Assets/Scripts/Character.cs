@@ -82,8 +82,12 @@ public class Character : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.tag == "flag" && collision.gameObject.GetComponent<Flag>().getColor() == color){
+        if(collision.gameObject.tag == "Flag" && collision.gameObject.GetComponent<Flag>().getColor() == color){
             gameObject.SetActive(false);
+        }
+        else if(collision.gameObject.tag == "Character"){
+            //Lose level
+            GameObject.Find("LosePanel").SetActive(true);
         }
     }
 }
