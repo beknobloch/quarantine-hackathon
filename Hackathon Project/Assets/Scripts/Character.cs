@@ -182,7 +182,7 @@ public class Character : MonoBehaviour
             {
                 radius = radius * 2;
                 sinked = false;
-                //rend.color = color.red;
+                rend.color = Color.red;
             }
         }
         //sneezing person
@@ -288,11 +288,8 @@ public class Character : MonoBehaviour
             sinked = true;
             rend.color = Color.blue;
         }
-        else
-        {
-            moveVector = rb.velocity;
-        }
     }
+
     void OnCollisionEnter(Collision collision)
 	{
 		if (collision.gameObject.CompareTag("Character"))
@@ -311,5 +308,7 @@ public class Character : MonoBehaviour
 
             GameObject.Find("GameControl").GetComponent<LevelGameControl>().levelLost();
         }
-	}
+        else
+            moveVector = rb.velocity;
+    }
 }
