@@ -5,6 +5,8 @@ using UnityEngine;
 public class LevelGameControl : MonoBehaviour
 {
 
+    public bool currentlyDrawing = false;
+
     [SerializeField]
     private GameObject winPanel;
     [SerializeField]
