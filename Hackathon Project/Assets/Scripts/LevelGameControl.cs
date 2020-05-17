@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 public class LevelGameControl : MonoBehaviour
 {
@@ -20,7 +22,7 @@ public class LevelGameControl : MonoBehaviour
 	}
     public void levelWon()
 	{
-        //winPanel.SetActive(true);
+        winPanel.SetActive(true);
         Debug.Log("Level Won!");
 	}
     public void checkIfWon()
@@ -33,7 +35,10 @@ public class LevelGameControl : MonoBehaviour
                 numEnabled += 1;
 			}
 		}
-        if(numEnabled < 2) levelWon();
+        if(numEnabled < 1) levelWon();
 	}
-
+    public void changeScene(string sceneName)
+	{
+        SceneManager.LoadScene(sceneName);
+    }
 }
