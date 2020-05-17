@@ -92,7 +92,7 @@ public class Character : MonoBehaviour
             DEF_RADIUS = 0;
         }
 
-        speed = DEF_SPEED * 5;
+        speed = DEF_SPEED * 2;
         radius = DEF_RADIUS;
 
         if(startingDirection.Equals("left"))
