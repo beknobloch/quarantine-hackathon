@@ -4,18 +4,28 @@ using System.Collections.Generic;
 [RequireComponent(typeof(Rigidbody))]
 public class Character : MonoBehaviour
 {
-    private float speed = 25;
+    private float speed = 4;
+    private float radius = 0;
     private List<GameObject> waypoints = new List<GameObject>();
     private GameObject waypointPrefab;
     private Rigidbody rb;
     private bool drawingLine = false;
     private Vector3 moveVector = Vector3.zero;
 
+    private string type;
+    private string color;
+
 
     private void Awake()
     {
         waypointPrefab = (GameObject)Resources.Load("Prefabs/Waypoint");
         rb = gameObject.GetComponent<Rigidbody>();
+
+        if(type == "masked"){
+            speed = 25;
+            radius = 1f;
+        }
+        //etc
     }
 
     void FixedUpdate()
@@ -62,5 +72,12 @@ public class Character : MonoBehaviour
         rb.velocity = Vector3.zero;
         rb.AddForce(speed * moveVector.normalized, ForceMode.VelocityChange);
         print(rb.velocity);
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.tag == "flag" && collision.gameObject.tag == color){
+            gameObject.SetActive(false);
+        }
     }
 }
