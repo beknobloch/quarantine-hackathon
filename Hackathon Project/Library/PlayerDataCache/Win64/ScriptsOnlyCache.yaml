@@ -1,14 +1,12 @@
 ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
+    - ChangeScene
     - Character
-    - PlayGame
     Unity.2D.Animation.Editor.dll:
     - UnityEditor.U2D.Animation.BoneGizmo
     Unity.2D.Tilemap.Editor.dll:
     - UnityEditor.Tilemaps.GridPaintingState
-    - UnityEditor.Tilemaps.GridPaletteBrushes
-    - UnityEditor.Tilemaps.GridPalettes
     - UnityEditor.Tilemaps.SceneViewGridManager
     - UnityEditor.Tilemaps.TileDragAndDropManager
     Unity.Rider.Editor.dll:
@@ -44,17 +42,17 @@ ScriptsOnlyBuild:
     - Class: 104
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 11184}
+      Script: {instanceID: 11170}
     - Class: 114
-      Script: {instanceID: 11318}
+      Script: {instanceID: 11304}
     - Class: 114
-      Script: {instanceID: 11526}
+      Script: {instanceID: 11512}
     - Class: 114
-      Script: {instanceID: 12186}
+      Script: {instanceID: 12172}
     - Class: 114
-      Script: {instanceID: 13640}
+      Script: {instanceID: 13632}
     - Class: 114
-      Script: {instanceID: 14252}
+      Script: {instanceID: 14244}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 136
@@ -89,21 +87,21 @@ ScriptsOnlyBuild:
     - Class: 104
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 11184}
+      Script: {instanceID: 11170}
     - Class: 114
-      Script: {instanceID: 11472}
+      Script: {instanceID: 11458}
     - Class: 114
-      Script: {instanceID: 11526}
+      Script: {instanceID: 11512}
     - Class: 114
-      Script: {instanceID: 12186}
+      Script: {instanceID: 12172}
     - Class: 114
-      Script: {instanceID: 12884}
+      Script: {instanceID: 12348}
     - Class: 114
-      Script: {instanceID: 13640}
+      Script: {instanceID: 12874}
     - Class: 114
-      Script: {instanceID: 14252}
+      Script: {instanceID: 13632}
     - Class: 114
-      Script: {instanceID: 18266}
+      Script: {instanceID: 14244}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -351,6 +349,12 @@ ScriptsOnlyBuild:
     className: Selectable
   - hash:
       serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: ChangeScene
+  - hash:
+      serializedVersion: 2
       Hash: b3ab2106268377ffe25dd18ac23dca28
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
@@ -387,6 +391,12 @@ ScriptsOnlyBuild:
     className: RemoteTestResultSender
   - hash:
       serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Flag
+  - hash:
+      serializedVersion: 2
       Hash: 4fd8bf02e3089425d3502e26c44ba31a
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
@@ -409,6 +419,12 @@ ScriptsOnlyBuild:
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
     className: VerticalLayoutGroup
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: LevelButton
   - hash:
       serializedVersion: 2
       Hash: 71b711096c6c32621c1d4c02310898b7
@@ -601,15 +617,9 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: PlayableTrack
-  - hash:
-      serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: PlayGame
   platform: 19
   scenePathNames:
   - Assets/Scenes/TitleScreen.unity
   - Assets/Scenes/SampleScene.unity
-  playerPath: /Users/kyledimaggio/Documents/GitHub/quarantine-hackathon/Hackathon
-    Project/widnows/Hackathon Project.exe
+  playerPath: C:/Users/hazem/Documents/GitHub/quarantine-hackathon/Hackathon Project/Hackathon
+    Project.exe
