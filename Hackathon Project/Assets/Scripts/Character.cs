@@ -54,9 +54,6 @@ public class Character : MonoBehaviour
     {
         gamecontrol = GameObject.Find("GameControl").GetComponent<LevelGameControl>();
 
-        rend = GetComponent<SpriteRenderer>();
-        color = "red";
-        Debug.Log(rend.color);
         waypointPrefab = (GameObject)Resources.Load("Prefabs/Waypoint");
         rb = gameObject.GetComponent<Rigidbody>();
 
@@ -95,7 +92,7 @@ public class Character : MonoBehaviour
             DEF_RADIUS = 0;
         }
 
-        speed = DEF_SPEED * 35;
+        speed = DEF_SPEED * 5;
         radius = DEF_RADIUS;
 
         if(startingDirection.Equals("left"))
@@ -162,7 +159,7 @@ public class Character : MonoBehaviour
 		//  Determines when to move the character into the screen.
 		if (Time.timeSinceLevelLoad >= timeBeforeSpawn && !hasBeenLoaded)
 		{
-			moveVector = startingVector * speed;
+			moveVector = startingVector;
 			hasBeenLoaded = true;
 		}
 
