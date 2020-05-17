@@ -5,10 +5,12 @@ using System;
 
 [RequireComponent(typeof(Rigidbody))]
 public class Character : MonoBehaviour
-{
-    private float speed = 32;
-    private float tempSpeed = 0;
-    private float radius = 0;
+{   
+    private float DEF_SPEED;
+
+    private float DEF_RADIUS;
+    private float speed;
+    private float radius;
     private List<GameObject> waypoints = new List<GameObject>();
     private GameObject waypointPrefab;
     private Rigidbody rb;
@@ -54,34 +56,41 @@ public class Character : MonoBehaviour
         rb = gameObject.GetComponent<Rigidbody>();
 
         if(type.Equals("masked")){
-            speed = 25;
-            radius = 1f;
+            DEF_SPEED = 25;
+            DEF_RADIUS = 1f;
         }
         else if(type.Equals("unmasked"))
         {
-            speed = 25;
-            radius = 2f;
+            DEF_SPEED = 25;
+            DEF_RADIUS = 2f;
         }
         else if(type.Equals("kid"))
         {
-            speed = 32;
-            radius = 1f;
+            DEF_SPEED = 32;
+            DEF_RADIUS = 1f;
         }
         else if(type.Equals("sick"))
         {
-            speed = 18;
-            radius = 2f;
+            DEF_SPEED = 18;
+            DEF_RADIUS = 2f;
         }
         else if(type.Equals("old"))
         {
-            speed = 18;
-            radius = 2f;
+            DEF_SPEED = 18;
+            DEF_RADIUS = 2f;
         }
         else if(type.Equals("delivery"))
         {
-            speed = 25;
-            radius = 1f;
+            DEF_SPEED = 25;
+            DEF_RADIUS = 1f;
         }
+        else {
+            DEF_SPEED = 32;
+            DEF_RADIUS = 0;
+        }
+
+        speed = DEF_SPEED;
+        radius = DEF_RADIUS;
 
         if(startingDirection.Equals("left"))
 		{
@@ -173,7 +182,7 @@ public class Character : MonoBehaviour
             {
                 radius = radius * 2;
                 sinked = false;
-                rend.color = color.red;
+                rend.color = Color.red;
             }
         }
         //sneezing person
@@ -182,14 +191,12 @@ public class Character : MonoBehaviour
             sickTimer++;
             if (sickTimer >=405)
                 {
-                tempSpeed = speed;
                 speed = 0;
                 sickTimer = 0;
             }
             else if (sickTimer >= 400)
             {
-                speed = tempSpeed;
-                tempSpeed = 0;
+                speed = DEF_SPEED;
             }
             else if (sickTimer >= 300)
             {
@@ -284,11 +291,8 @@ public class Character : MonoBehaviour
             sinked = true;
             rend.color = Color.blue;
         }
-        else
-        {
-            moveVector = rb.velocity;
-        }
     }
+
     void OnCollisionEnter(Collision collision)
 	{
 		if (collision.gameObject.CompareTag("Character"))
@@ -307,5 +311,7 @@ public class Character : MonoBehaviour
 
             GameObject.Find("GameControl").GetComponent<LevelGameControl>().levelLost();
         }
-	}
+        else
+            moveVector = rb.velocity;
+    }
 }
