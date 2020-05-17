@@ -118,15 +118,6 @@ public class Character : MonoBehaviour
 
 	void Update()
 	{
-        GLOBAL_TIMER += Time.deltaTime;
-        //  Determines when to move the character into the screen.
-        if(Time.timeSinceLevelLoad >= timeBeforeSpawn && !hasBeenLoaded)
-		{
-            rb.velocity = startingVector;
-            hasBeenLoaded = true;
-        }
-
-        
 		//  Creates waypoints.
 		if (Input.GetMouseButton(0))
 		{
@@ -166,7 +157,16 @@ public class Character : MonoBehaviour
         //  Moves the player.
     void FixedUpdate()
 	{
-        if(waypoints.Count > 0){
+
+		GLOBAL_TIMER += Time.fixedDeltaTime;
+		//  Determines when to move the character into the screen.
+		if (Time.timeSinceLevelLoad >= timeBeforeSpawn && !hasBeenLoaded)
+		{
+			moveVector = startingVector * speed;
+			hasBeenLoaded = true;
+		}
+
+		if (waypoints.Count > 0){
             moveVector = waypoints[0].transform.position - transform.position;
             if(waypoints.Count > 1 || (waypoints.Count == 1 && !drawingLine)){
                 if(moveVector.magnitude < 15){
