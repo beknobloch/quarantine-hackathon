@@ -239,7 +239,7 @@ public class Character : MonoBehaviour
 
     void OnTriggerEnter(Collider collision)
     {
-        if (collision.gameObject.CompareTag("Flag") && collision.gameObject.color.IndexOf(GetComponent<Flag>().getColor()) != -1)
+        if (collision.gameObject.CompareTag("Flag") && color.IndexOf(collision.gameObject.GetComponent<Flag>().getColor()) != -1)
         {
             if (type.Equals("delivery") && deliveryFlags == 1 || !type.Equals("delivery"))
             {
@@ -256,9 +256,9 @@ public class Character : MonoBehaviour
             else if(type.Equals("delivery") && deliveryFlags == 0)
             {
                 deliveryFlags++;
-                if (collision.gameObject.color.IndexOf(GetComponent<Flag>().getColor()) = 0)
-                    color = collision.gameObject.SubString(color.IndexOf(" "), color.length() - 1);
-                else color = collision.gameObject.SubString(0, IndexOf(" "));
+                if (color.IndexOf(collision.gameObject.GetComponent<Flag>().getColor()) == 0)
+                    color = color.Substring(color.IndexOf(" ") + 1, color.Length);
+                else color = color.Substring(0, color.IndexOf(" "));
             }
         }
         else if(collision.gameObject.CompareTag("Hand Sanitizer"))

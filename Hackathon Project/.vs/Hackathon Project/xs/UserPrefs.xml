@@ -1,8 +1,9 @@
 ﻿<Properties StartupConfiguration="{8262CADA-FA15-22AF-A0D7-A71EF595345F}|">
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Character.cs">
     <Files>
-      <File FileName="Assets/Scripts/Character.cs" Line="256" Column="67" />
-      <File FileName="Assets/Scripts/ChangeScene.cs" />
+      <File FileName="Assets/Scripts/Character.cs" Line="242" Column="80" />
+      <File FileName="Assets/Scripts/ChangeScene.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Flag.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
