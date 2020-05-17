@@ -7,7 +7,7 @@ using System;
 public class Character : MonoBehaviour
 {
 
-    GameObject gamecontrol = GameObject.Find("GameControl").GetComponent<LevelGameControl>();
+    LevelGameControl gamecontrol = GameObject.Find("GameControl").GetComponent<LevelGameControl>();
 
     private float DEF_SPEED;
 
