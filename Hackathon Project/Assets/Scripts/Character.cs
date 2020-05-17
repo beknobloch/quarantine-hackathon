@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Rigidbody))]
 public class Character : MonoBehaviour
@@ -20,10 +21,18 @@ public class Character : MonoBehaviour
 
     private bool toiletPapered = false;
 
+    private bool finished = false;
+    private int deliveryFlags;
+    
     [SerializeField]
     private string type;
     [SerializeField]
     private string color;
+    [SerializeField]
+    private float timeBeforeSpawn;
+    [SerializeField]
+    private string startingDirection;
+    private Vector3 startingVector;
 
     SpriteRenderer rend;
 
@@ -40,11 +49,57 @@ public class Character : MonoBehaviour
             speed = 25;
             radius = 1f;
         }
-        //etc
+        else if(type == "unmasked")
+        {
+            speed = 25;
+            radius = 2f;
+        }
+        else if(type == "kid")
+        {
+            speed = 32;
+            radius = 1f;
+        }
+        else if(type == "sick")
+        {
+            speed = 18;
+            radius = 2f;
+        }
+        else if(type == "old")
+        {
+            speed = 18;
+            radius = 2f;
+        }
+        else if(type == "delivery")
+        {
+            speed = 25;
+            radius = 1f;
+        }
+
+        if(startingDirection == "left")
+		{
+            startingVector = Vector3.left;
+		}
+        else if(startingDirection == "up")
+		{
+            startingVector = Vector3.up;
+		}
+        else if(startingDirection == "right")
+		{
+            startingVector = Vector3.right;
+		}
+		else
+		{
+            startingVector = Vector3.down;
+		}
     }
 
 	void Update()
 	{
+        //  Determines when to move the character into the screen.
+        if(Time.timeSinceLevelLoad >= timeBeforeSpawn)
+		{
+            rb.velocity = startingVector;
+        }
 
         
 		//  Creates waypoints.
@@ -134,18 +189,35 @@ public class Character : MonoBehaviour
     public string getColor(){
         return color;
     }
+    public bool getFinished()
+	{
+        return finished;
+	}
+    public void stop()
+	{
+        speed = 0;
+	}
 
     void OnTriggerEnter(Collider collision)
     {
-        Debug.Log("collide!");
-        if(collision.gameObject.CompareTag("Flag") && collision.gameObject.GetComponent<Flag>().getColor().Equals(color)){
-            Debug.Log("1");
-            gameObject.SetActive(false);
-        }
-        else if(collision.gameObject.tag == "Character"){
-            Debug.Log("2");
-            //Lose level
-            GameObject.Find("LosePanel").SetActive(true);
+        if (collision.gameObject.CompareTag("Flag") && collision.gameObject.GetComponent<Flag>().getColor().Equals(color))
+        {
+            if (type.Equals("delivery") && deliveryFlags == 1 || !type.Equals("delivery"))
+            {
+                foreach (GameObject waypoint in waypoints)
+                {
+                    Destroy(waypoint);
+                }
+                waypoints.Clear();
+                finished = true;
+                GameObject.Find("GameControl").GetComponent<LevelGameControl>().checkIfWon();
+                gameObject.SetActive(false);
+
+            }
+            else if(type.Equals("delivery") && deliveryFlags == 0)
+            {
+                deliveryFlags++;
+            }
         }
         else if(collision.gameObject.CompareTag("Hand Sanitizer"))
         {
@@ -169,10 +241,27 @@ public class Character : MonoBehaviour
             rend.material.color = Color.black;
         }
         else
+        {
+            moveVector = rb.velocity;
+        }
+    }
+    void OnCollisionEnter(Collision collision)
+	{
+		if (collision.gameObject.CompareTag("Character"))
 		{
-            Debug.Log("5");
-			moveVector = rb.velocity;
-		}
-    }
-    }
+            //Lose level
+            try
+            {
+                collision.gameObject.GetComponent<Character>().stop();
+                stop();
+			}
+			catch
+			{
 
+			}
+
+
+            GameObject.Find("GameControl").GetComponent<LevelGameControl>().levelLost();
+        }
+	}
+}
