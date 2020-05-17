@@ -4,7 +4,7 @@ using System.Collections.Generic;
 [RequireComponent(typeof(Rigidbody))]
 public class Character : MonoBehaviour
 {
-    private float speed = 32;
+    private float speed = 24;
     private float radius = 0;
     private List<GameObject> waypoints = new List<GameObject>();
     private GameObject waypointPrefab;
@@ -90,5 +90,9 @@ public class Character : MonoBehaviour
             //Lose level
             GameObject.Find("LosePanel").SetActive(true);
         }
+        else
+		{
+			moveVector = rb.velocity;
+		}
     }
 }
