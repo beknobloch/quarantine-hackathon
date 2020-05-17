@@ -1,0 +1,24 @@
+fileFormatVersion: 2
+guid: 428ecd31190cb44d2a129af4626a6a4c
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Recurso Sans
+  fontNames:
+  - Recurso Sans
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: a1320828a6a8b44b38eb69daca609575, type: 3}
+  - {fileID: 12800000, guid: c133fc69336be47a0ad6291a418c85c5, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

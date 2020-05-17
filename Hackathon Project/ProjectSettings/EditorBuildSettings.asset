@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/TitleScreen.unity
+    guid: 13551c566d34343dc9618a90edc3aea2
+  - enabled: 1
+    path: Assets/Scenes/SampleScene.unity
+    guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/LevelSelect.unity
+    guid: 451fb0e2e13e6445dbd2087540f01df6
+  - enabled: 1
+    path: Assets/Scenes/OptionsScreen.unity
+    guid: 3193c42ad6a6040249e06ff8bacaa357
+  - enabled: 1
+    path: Assets/Scenes/Levels/Level1.unity
+    guid: 2cc5f77df9c5b43f2bd38402782bf079
+  - enabled: 1
+    path: Assets/Scenes/Levels/Level3.unity
+    guid: bf07864bab79ecf499e5075f346b3a2f
+  - enabled: 1
+    path: Assets/Scenes/Levels/Level8.unity
+    guid: c97a944094233e745801099cebb9eda9
+  - enabled: 1
+    path: Assets/Scenes/Levels/Level15.unity
+    guid: 48f4a1c380ae71b41bef36787c26e774
+  - enabled: 1
+    path: Assets/Scenes/Levels/Level12.unity
+    guid: bc1c5cd163fb94140bc698371d1ef0bd
+  - enabled: 1
+    path: Assets/Scenes/Blurbs/blurb mask.unity
+    guid: 6813b75860a7d4bf6b2239849e1b67c7
+  - enabled: 1
+    path: Assets/Scenes/Blurbs/blurb sink.unity
+    guid: 84cedbd2720844783a01336281bafc45
+  m_configObjects: {}
