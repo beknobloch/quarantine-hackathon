@@ -12,7 +12,9 @@ public class Character : MonoBehaviour
     private bool drawingLine = false;
     private Vector3 moveVector = Vector3.zero;
 
+    [SerializeField]
     private string type;
+    [SerializeField]
     private string color;
 
 
@@ -75,10 +77,18 @@ public class Character : MonoBehaviour
         rb.AddForce(speed * moveVector.normalized, ForceMode.VelocityChange);
     }
 
+    public string getColor(){
+        return color;
+    }
+
     void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.tag == "flag" && collision.gameObject.tag == color){
+        if(collision.gameObject.tag == "Flag" && collision.gameObject.GetComponent<Flag>().getColor() == color){
             gameObject.SetActive(false);
+        }
+        else if(collision.gameObject.tag == "Character"){
+            //Lose level
+            GameObject.Find("LosePanel").SetActive(true);
         }
     }
 }
