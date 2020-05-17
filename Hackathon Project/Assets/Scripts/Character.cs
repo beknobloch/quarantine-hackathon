@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using System.Diagnostics.Eventing.Reader;
 
 [RequireComponent(typeof(Rigidbody))]
 public class Character : MonoBehaviour
@@ -31,7 +32,31 @@ public class Character : MonoBehaviour
             speed = 25;
             radius = 1f;
         }
-        //etc
+        else if(type == "unmasked")
+        {
+            speed = 25;
+            radius = 2f;
+        }
+        else if(type == "kid")
+        {
+            spped = 32;
+            radius = 1f;
+        }
+        else if(type == "sick")
+        {
+            speed = 18;
+            radius = 2f;
+        }
+        else if(type == "old")
+        {
+            speed = 18;
+            radius = 2f;
+        }
+        else if(type == "delivery")
+        {
+            speed = 25;
+            radius = 1f;
+        }
     }
 
 	void Update()
