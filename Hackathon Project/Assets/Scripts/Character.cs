@@ -5,7 +5,10 @@ using System;
 
 [RequireComponent(typeof(Rigidbody))]
 public class Character : MonoBehaviour
-{   
+{
+
+    GameObject gamecontrol = GameObject.Find("GameControl").GetComponent<LevelGameControl>();
+
     private float DEF_SPEED;
 
     private float DEF_RADIUS;
@@ -17,19 +20,19 @@ public class Character : MonoBehaviour
     private bool drawingLine = false;
     private Vector3 moveVector = Vector3.zero;
 
-    private int hSTimer = 0;
+    private static int GLOBAL_TIMER= 0;
 
-    private int tPTimer = 0;
+    private List<int> timerStartValue = new List<int>(){
+        0,
+        0,
+        0
+    };
 
-    private int sTimer = 0;
-
-    private int sickTimer = 0;
-
-    private bool handSanitized = false;
-
-    private bool toiletPapered = false;
-
-    private bool sinked = false;
+    private List<bool> timerEvents = new List<bool>(){
+        false,
+        false,
+        false
+    };
 
     private bool finished = false;
     private int deliveryFlags;
@@ -54,6 +57,7 @@ public class Character : MonoBehaviour
         Debug.Log(rend.color);
         waypointPrefab = (GameObject)Resources.Load("Prefabs/Waypoint");
         rb = gameObject.GetComponent<Rigidbody>();
+
 
         if(type.Equals("masked")){
             DEF_SPEED = 25;
@@ -112,6 +116,7 @@ public class Character : MonoBehaviour
 
 	void Update()
 	{
+        GLOBAL_TIMER ++;
         //  Determines when to move the character into the screen.
         if(Time.timeSinceLevelLoad >= timeBeforeSpawn)
 		{
@@ -128,7 +133,7 @@ public class Character : MonoBehaviour
 
 			if (!hit) return;
 
-			if (!drawingLine && hitInfo.collider.gameObject.Equals(gameObject))
+			if (!drawingLine && !gamecontrol.currentlyDrawing && hitInfo.collider.gameObject.Equals(gameObject))
 			{
 				foreach (GameObject wp in waypoints) {
 					Destroy(wp);
@@ -136,73 +141,20 @@ public class Character : MonoBehaviour
 				waypoints.Clear();
 				waypoints.Add(Instantiate(waypointPrefab, Helpers.Vector3To2(hitInfo.point), Quaternion.identity));
 				drawingLine = true;
+                gamecontrol.currentlyDrawing = true;
 			}
-			else if (drawingLine && waypoints.Count > 0 && Vector3.Distance(waypoints[waypoints.Count - 1].transform.position, hitInfo.point) > .5f)
+			else if (drawingLine && gamecontrol.currentlyDrawing && waypoints.Count > 0 && Vector3.Distance(waypoints[waypoints.Count - 1].transform.position, hitInfo.point) > .5f)
 			{
 				waypoints.Add(Instantiate(waypointPrefab, Helpers.Vector3To2(hitInfo.point), Quaternion.identity));
 			}
 		}
 		else if (drawingLine) {
 			drawingLine = false;
+            gamecontrol.currentlyDrawing = false;
 		}
 
 
-        //timer conditions
-        //handsanitizer
-        if (handSanitized){
-            hSTimer ++;
-
-            if (hSTimer >= 600){
-                Debug.Log("Yeet");
-                //set back to default (ADJUST VALUES)
-                radius = radius * 2;
-                 
-                handSanitized = false;
-                rend.color = Color.red;
-            }
-        }
-
-        //toilet paper
-        if (toiletPapered){
-            tPTimer ++;
-
-            if (tPTimer >= 600){
-
-                speed = speed - 5;
-
-
-                toiletPapered = false;
-                rend.color = Color.red;
-            }
-        }
-        if (sinked)
-        {
-            sTimer++;
-            if(sTimer >=600)
-            {
-                radius = radius * 2;
-                sinked = false;
-                rend.color = Color.red;
-            }
-        }
-        //sneezing person
-        if (type.Equals("sick"))
-        {
-            sickTimer++;
-            if (sickTimer >=405)
-                {
-                speed = 0;
-                sickTimer = 0;
-            }
-            else if (sickTimer >= 400)
-            {
-                speed = DEF_SPEED;
-            }
-            else if (sickTimer >= 300)
-            {
-                //some alarm
-            }
-        }
+        checkTimer();
     }
 
         
@@ -249,7 +201,7 @@ public class Character : MonoBehaviour
                 }
                 waypoints.Clear();
                 finished = true;
-                GameObject.Find("GameControl").GetComponent<LevelGameControl>().checkIfWon();
+                gamecontrol.checkIfWon();
                 gameObject.SetActive(false);
 
             }
@@ -267,8 +219,8 @@ public class Character : MonoBehaviour
             Debug.Log("3");
             Destroy(collision.gameObject);
             radius = radius/2; //change value as needed
-            hSTimer = 0;
-            handSanitized = true;
+            timerStartValue[0] = GLOBAL_TIMER;
+            timerEvents[0] = true;
             rend.color = Color.green; 
             Debug.Log("Hi!");
         }
@@ -278,8 +230,8 @@ public class Character : MonoBehaviour
             Debug.Log("4");
             Destroy(collision.gameObject);
             speed = speed+5; //change value as needed
-            tPTimer = 0;
-            toiletPapered = true;
+            timerStartValue[1] = GLOBAL_TIMER;
+            timerEvents[1] = true;
             rend.material.color = Color.black;
         }
         else if (collision.gameObject.CompareTag("Sink"))
@@ -287,8 +239,8 @@ public class Character : MonoBehaviour
             Debug.Log("5");
             Destroy(collision.gameObject);
             radius = radius/2; //change value as needed
-            hSTimer = 0;
-            sinked = true;
+            timerStartValue[2] = GLOBAL_TIMER;
+            timerEvents[2] = true;
             rend.color = Color.blue;
         }
     }
@@ -309,9 +261,55 @@ public class Character : MonoBehaviour
 			}
 
 
-            GameObject.Find("GameControl").GetComponent<LevelGameControl>().levelLost();
+            gamecontrol.levelLost();
         }
-        else
+        else{
             moveVector = rb.velocity;
+        }
+    }
+
+    void checkTimer(){
+
+        //timer conditions
+        //handsanitizer
+        if (timerEvents[0] && GLOBAL_TIMER - timerStartValue[0]>=600){
+
+            Debug.Log("Yeet");
+            //set back to default (ADJUST VALUES)
+            radius = DEF_RADIUS;
+            timerEvents[0] = false;
+            rend.color = Color.red;
+        }
+
+        //toilet paper
+        if (timerEvents[1] && GLOBAL_TIMER - timerStartValue[1]>=600){
+
+            speed = speed - 5;
+            rend.color = Color.red;
+
+            
+        }
+        if (timerEvents[2] && GLOBAL_TIMER - timerStartValue[2]>=600)
+        {
+            radius = radius * 2;
+            rend.color = Color.red;
+            
+        }
+        //sneezing person
+        if (type.Equals("sick"))
+        {
+            if (GLOBAL_TIMER - timerStartValue[3]>=300)
+            {
+                //some alarm
+            }
+            if (GLOBAL_TIMER - timerStartValue[3] >=405)
+                {
+                speed = 0;
+            }
+            else if (GLOBAL_TIMER - timerStartValue[3] >= 400)
+            {
+                speed = DEF_SPEED;
+            }
+        }
     }
 }
