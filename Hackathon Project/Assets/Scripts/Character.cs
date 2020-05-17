@@ -19,7 +19,7 @@ public class Character : MonoBehaviour
 
     private static int GLOBAL_TIMER= 0;
 
-    private List<int> timerStartValue = new List<bool>(){
+    private List<int> timerStartValue = new List<int>(){
         0,
         0,
         0
@@ -271,7 +271,6 @@ public class Character : MonoBehaviour
             Debug.Log("Yeet");
             //set back to default (ADJUST VALUES)
             radius = DEF_RADIUS;
-                 
             timerEvents[0] = false;
             rend.color = Color.red;
         }
@@ -280,9 +279,6 @@ public class Character : MonoBehaviour
         if (timerEvents[1] && GLOBAL_TIMER - timerStartValue[1]>=600){
 
             speed = speed - 5;
-
-
-            toiletPapered = false;
             rend.color = Color.red;
 
             
@@ -290,8 +286,7 @@ public class Character : MonoBehaviour
         if (timerEvents[2] && GLOBAL_TIMER - timerStartValue[2]>=600)
         {
             radius = radius * 2;
-            sinked = false;
-            rend.color = color.red;
+            rend.color = Color.red;
             
         }
         //sneezing person
@@ -304,7 +299,6 @@ public class Character : MonoBehaviour
             if (GLOBAL_TIMER - timerStartValue[3] >=405)
                 {
                 speed = 0;
-                sickTimer = 0;
             }
             else if (GLOBAL_TIMER - timerStartValue[3] >= 400)
             {
