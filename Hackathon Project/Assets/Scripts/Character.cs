@@ -206,7 +206,6 @@ public class Character : MonoBehaviour
                 }
                 waypoints.Clear();
                 finished = true;
-                gamecontrol.checkIfWon();
                 gameObject.SetActive(false);
 
             }
@@ -271,6 +270,11 @@ public class Character : MonoBehaviour
         }
         else{
             moveVector = rb.velocity;
+            foreach (GameObject waypoint in waypoints)
+            {
+                Destroy(waypoint);
+            }
+            waypoints.Clear();
         }
     }
 
