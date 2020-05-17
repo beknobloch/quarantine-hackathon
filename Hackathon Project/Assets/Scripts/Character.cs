@@ -19,6 +19,7 @@ public class Character : MonoBehaviour
     private Rigidbody rb;
     private bool drawingLine = false;
     private Vector3 moveVector = Vector3.zero;
+    private bool hasBeenLoaded = false;
 
     private static int GLOBAL_TIMER= 0;
 
@@ -119,9 +120,10 @@ public class Character : MonoBehaviour
 	{
         GLOBAL_TIMER ++;
         //  Determines when to move the character into the screen.
-        if(Time.timeSinceLevelLoad >= timeBeforeSpawn)
+        if(Time.timeSinceLevelLoad >= timeBeforeSpawn && !hasBeenLoaded)
 		{
             rb.velocity = startingVector;
+            hasBeenLoaded = true;
         }
 
         
