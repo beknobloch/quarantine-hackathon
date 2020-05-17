@@ -20,6 +20,7 @@ public class Character : MonoBehaviour
     private bool drawingLine = false;
     private Vector3 moveVector = Vector3.zero;
     private bool hasBeenLoaded = false;
+    private AudioSource source;
 
     private float GLOBAL_TIMER= 0.0f;
 
@@ -52,6 +53,9 @@ public class Character : MonoBehaviour
 
     private void Awake()
     {
+
+        source = GetComponent<AudioSource>();
+
         gamecontrol = GameObject.Find("GameControl").GetComponent<LevelGameControl>();
 
         waypointPrefab = (GameObject)Resources.Load("Prefabs/Waypoint");
@@ -193,6 +197,7 @@ public class Character : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Flag") && color.IndexOf(collision.gameObject.GetComponent<Flag>().getColor()) != -1)
         {
+            source.Play();
             if (type.Equals("delivery") && deliveryFlags == 1 || !type.Equals("delivery"))
             {
                 foreach (GameObject waypoint in waypoints)
@@ -247,8 +252,9 @@ public class Character : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
 	{
-		if (collision.gameObject.CompareTag("Character"))
+        if (collision.gameObject.CompareTag("Character"))
 		{
+            source.Play();
             //Lose level
             try
             {
