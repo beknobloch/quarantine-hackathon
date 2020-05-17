@@ -4,7 +4,7 @@ using System.Collections.Generic;
 [RequireComponent(typeof(Rigidbody))]
 public class Character : MonoBehaviour
 {
-    private float speed = 24;
+    private float speed = 32;
     private float radius = 0;
     private List<GameObject> waypoints = new List<GameObject>();
     private GameObject waypointPrefab;
@@ -42,7 +42,7 @@ public class Character : MonoBehaviour
 
 			if (!hit) return;
 
-			if (!drawingLine && hitInfo.collider.tag.Equals("Character"))
+			if (!drawingLine && hitInfo.collider.gameObject.Equals(gameObject))
 			{
 				foreach (GameObject wp in waypoints) {
 					Destroy(wp);
