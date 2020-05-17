@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Flag : MonoBehaviour
 {
-
+    [SerializeField]
     private string color;
 
     // Update is called once per frame

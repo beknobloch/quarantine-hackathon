@@ -12,7 +12,9 @@ public class Character : MonoBehaviour
     private bool drawingLine = false;
     private Vector3 moveVector = Vector3.zero;
 
+    [SerializeField]
     private string type;
+    [SerializeField]
     private string color;
 
 
