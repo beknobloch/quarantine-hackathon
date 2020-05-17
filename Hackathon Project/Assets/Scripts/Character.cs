@@ -186,7 +186,7 @@ public class Character : MonoBehaviour
 
     void OnTriggerEnter(Collider collision)
     {
-        if (collision.gameObject.CompareTag("Flag") && collision.gameObject.GetComponent<Flag>().getColor().Equals(color))
+        if (collision.gameObject.CompareTag("Flag") && collision.gameObject.color.IndexOf(GetComponent<Flag>().getColor()) != -1)
         {
             if (type.Equals("delivery") && deliveryFlags == 1 || !type.Equals("delivery"))
             {
@@ -203,6 +203,9 @@ public class Character : MonoBehaviour
             else if(type.Equals("delivery") && deliveryFlags == 0)
             {
                 deliveryFlags++;
+                if (collision.gameObject.color.IndexOf(GetComponent<Flag>().getColor()) = 0)
+                    color = collision.gameObject.SubString(color.IndexOf(" "), color.length() - 1);
+                else color = collision.gameObject.SubString(0, IndexOf(" "));
             }
         }
         else if(collision.gameObject.CompareTag("Hand Sanitizer"))
@@ -235,13 +238,8 @@ public class Character : MonoBehaviour
             timerEvents[2] = true;
             rend.color = Color.blue;
         }
-        else
-        {
-            moveVector = rb.velocity;
-        }
     }
 
-    
     void OnCollisionEnter(Collision collision)
 	{
 		if (collision.gameObject.CompareTag("Character"))
@@ -260,7 +258,10 @@ public class Character : MonoBehaviour
 
             GameObject.Find("GameControl").GetComponent<LevelGameControl>().levelLost();
         }
-	}
+        else{
+            moveVector = rb.velocity;
+        }
+    }
 
     void checkTimer(){
 
@@ -305,6 +306,5 @@ public class Character : MonoBehaviour
                 speed = DEF_SPEED;
             }
         }
-        
     }
 }
