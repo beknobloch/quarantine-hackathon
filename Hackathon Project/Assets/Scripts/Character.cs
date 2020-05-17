@@ -81,9 +81,9 @@ public class Character : MonoBehaviour
         return color;
     }
 
-    void OnCollisionEnter(Collision collision)
+    void OnTriggerEnter(Collider collision)
     {
-        if(collision.gameObject.tag == "Flag" && collision.gameObject.GetComponent<Flag>().getColor() == color){
+        if(collision.gameObject.CompareTag("Flag") && collision.gameObject.GetComponent<Flag>().getColor().Equals(color)){
             gameObject.SetActive(false);
         }
         else if(collision.gameObject.tag == "Character"){
