@@ -240,10 +240,6 @@ public class Character : MonoBehaviour
             toiletPapered = true;
             rend.material.color = Color.black;
         }
-        else
-        {
-            moveVector = rb.velocity;
-        }
     }
     void OnCollisionEnter(Collision collision)
 	{
@@ -263,5 +259,7 @@ public class Character : MonoBehaviour
 
             GameObject.Find("GameControl").GetComponent<LevelGameControl>().levelLost();
         }
-	}
+        else
+            moveVector = rb.velocity;
+    }
 }
