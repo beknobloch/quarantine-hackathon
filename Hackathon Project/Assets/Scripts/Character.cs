@@ -6,7 +6,8 @@ using System;
 [RequireComponent(typeof(Rigidbody))]
 public class Character : MonoBehaviour
 {
-    LevelGameControl gamecontrol = GameObject.Find("GameControl").GetComponent<LevelGameControl>();
+
+    LevelGameControl gamecontrol;
 
     private float DEF_SPEED;
 
@@ -50,7 +51,8 @@ public class Character : MonoBehaviour
 
     private void Awake()
     {
-        
+        gamecontrol = GameObject.Find("GameControl").GetComponent<LevelGameControl>();
+
         rend = GetComponent<SpriteRenderer>();
         color = "red";
         Debug.Log(rend.color);
