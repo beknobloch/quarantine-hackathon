@@ -23,14 +23,15 @@ public class LevelGameControl : MonoBehaviour
 	}
     public void checkIfWon()
 	{
+        int numEnabled = 0;
         foreach(GameObject character in characters)
 		{
-			if (!character.GetComponent<Character>().getFinished())
+			if (character.activeSelf)
 			{
-                return;
+                numEnabled += 1;
 			}
 		}
-        levelWon();
+        if(numEnabled < 2) levelWon();
 	}
 
 }

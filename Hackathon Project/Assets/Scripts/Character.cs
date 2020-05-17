@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
-using System.Diagnostics.Eventing.Reader;
 
 [RequireComponent(typeof(Rigidbody))]
 public class Character : MonoBehaviour
@@ -39,7 +38,7 @@ public class Character : MonoBehaviour
         }
         else if(type == "kid")
         {
-            spped = 32;
+            speed = 32;
             radius = 1f;
         }
         else if(type == "sick")
@@ -127,8 +126,8 @@ public class Character : MonoBehaviour
 			}
             waypoints.Clear();
             finished = true;
-            gameObject.SetActive(false);
             GameObject.Find("GameControl").GetComponent<LevelGameControl>().checkIfWon();
+            gameObject.SetActive(false);
         }
         else
 		{
