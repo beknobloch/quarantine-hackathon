@@ -4,9 +4,12 @@ using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Rigidbody))]
 public class Character : MonoBehaviour
-{
-    private float speed = 32;
-    private float radius = 0;
+{   
+    private float DEF_SPEED;
+
+    private float DEF_RADIUS;
+    private float speed;
+    private float radius;
     private List<GameObject> waypoints = new List<GameObject>();
     private GameObject waypointPrefab;
     private Rigidbody rb;
@@ -46,34 +49,41 @@ public class Character : MonoBehaviour
         rb = gameObject.GetComponent<Rigidbody>();
 
         if(type == "masked"){
-            speed = 25;
-            radius = 1f;
+            DEF_SPEED = 25;
+            DEF_RADIUS = 1f;
         }
         else if(type == "unmasked")
         {
-            speed = 25;
-            radius = 2f;
+            DEF_SPEED = 25;
+            DEF_RADIUS = 2f;
         }
         else if(type == "kid")
         {
-            speed = 32;
-            radius = 1f;
+            DEF_SPEED = 32;
+            DEF_RADIUS = 1f;
         }
         else if(type == "sick")
         {
-            speed = 18;
-            radius = 2f;
+            DEF_SPEED = 18;
+            DEF_RADIUS = 2f;
         }
         else if(type == "old")
         {
-            speed = 18;
-            radius = 2f;
+            DEF_SPEED = 18;
+            DEF_RADIUS = 2f;
         }
         else if(type == "delivery")
         {
-            speed = 25;
-            radius = 1f;
+            DEF_SPEED = 25;
+            DEF_RADIUS = 1f;
         }
+        else {
+            DEF_SPEED = 32;
+            DEF_RADIUS = 0;
+        }
+
+        speed = DEF_SPEED;
+        radius = DEF_RADIUS;
 
         if(startingDirection == "left")
 		{
