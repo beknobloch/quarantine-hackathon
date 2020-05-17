@@ -13,4 +13,8 @@ public class Flag : MonoBehaviour
         if(collision.gameObject.tag == "character" && collision.gameObject.tag == color){
         }
     }
+
+    public string getColor(){
+        return color;
+    }
 }

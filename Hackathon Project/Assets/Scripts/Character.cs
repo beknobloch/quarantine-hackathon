@@ -74,9 +74,13 @@ public class Character : MonoBehaviour
         print(rb.velocity);
     }
 
+    public string getColor(){
+        return color;
+    }
+
     void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.tag == "flag" && collision.gameObject.tag == color){
+        if(collision.gameObject.tag == "flag" && collision.gameObject.GetComponent<Flag>().getColor() == color){
             gameObject.SetActive(false);
         }
     }
