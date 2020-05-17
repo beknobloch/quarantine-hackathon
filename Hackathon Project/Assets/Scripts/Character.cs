@@ -180,10 +180,6 @@ public class Character : MonoBehaviour
         if (type.Equals("sick"))
         {
             sickTimer++;
-            if (sickTimer >= 300)
-            {
-                //some alarm
-            }
             if (sickTimer >=405)
                 {
                 tempSpeed = speed;
@@ -194,6 +190,10 @@ public class Character : MonoBehaviour
             {
                 speed = tempSpeed;
                 tempSpeed = 0;
+            }
+            else if (sickTimer >= 300)
+            {
+                //some alarm
             }
         }
     }
@@ -232,7 +232,7 @@ public class Character : MonoBehaviour
 
     void OnTriggerEnter(Collider collision)
     {
-        if (collision.gameObject.CompareTag("Flag") && collision.gameObject.GetComponent<Flag>().getColor().Equals(color))
+        if (collision.gameObject.CompareTag("Flag") && collision.gameObject.color.IndexOf(GetComponent<Flag>().getColor()) != -1)
         {
             if (type.Equals("delivery") && deliveryFlags == 1 || !type.Equals("delivery"))
             {
@@ -249,6 +249,9 @@ public class Character : MonoBehaviour
             else if(type.Equals("delivery") && deliveryFlags == 0)
             {
                 deliveryFlags++;
+                if (collision.gameObject.color.IndexOf(GetComponent<Flag>().getColor()) = 0)
+                    color = collision.gameObject.SubString(color.IndexOf(" "), color.length() - 1);
+                else color = collision.gameObject.SubString(0, IndexOf(" "));
             }
         }
         else if(collision.gameObject.CompareTag("Hand Sanitizer"))
