@@ -273,7 +273,7 @@ public class Character : MonoBehaviour
 
         //timer conditions
         //handsanitizer
-        if (timerEvents[0] && GLOBAL_TIMER - timerStartValue[0]>=5.0){
+        if (timerEvents[0] && GLOBAL_TIMER - timerStartValue[0]>=10.0){
 
             Debug.Log("Yeet");
             //set back to default (ADJUST VALUES)
@@ -283,14 +283,14 @@ public class Character : MonoBehaviour
         }
 
         //toilet paper
-        if (timerEvents[1] && GLOBAL_TIMER - timerStartValue[1]>=5.0){
+        if (timerEvents[1] && GLOBAL_TIMER - timerStartValue[1]>=10.0){
 
             speed = speed - 5;
             rend.color = Color.red;
 
             
         }
-        if (timerEvents[2] && GLOBAL_TIMER - timerStartValue[2]>=2.5)
+        if (timerEvents[2] && GLOBAL_TIMER - timerStartValue[2]>=5.0)
         {
             radius = radius * 2;
             rend.color = Color.red;
@@ -299,17 +299,17 @@ public class Character : MonoBehaviour
         //sneezing person
         if (type.Equals("sick"))
         {
-            if (GLOBAL_TIMER - timerStartValue[3]>=2.5)
+            if (GLOBAL_TIMER - timerStartValue[3]>=5.0)
             {
                 //some alarm
             }
-            if (GLOBAL_TIMER - timerStartValue[3] >=4.05)
+            if (GLOBAL_TIMER - timerStartValue[3] >=6.915)
                 {
-                speed = 0;
-            }
-            else if (GLOBAL_TIMER - timerStartValue[3] >= 4.0)
-            {
                 speed = DEF_SPEED;
+            }
+            else if (GLOBAL_TIMER - timerStartValue[3] >= 6.500)
+            {
+                speed = 0;
             }
         }
     }
