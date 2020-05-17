@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 [RequireComponent(typeof(Rigidbody))]
 public class Character : MonoBehaviour
 {
-    private LevelGameControl gamecontrol;
     private float speed = 32;
     private float radius = 0;
     private List<GameObject> waypoints = new List<GameObject>();
@@ -14,7 +13,8 @@ public class Character : MonoBehaviour
     private bool drawingLine = false;
     private Vector3 moveVector = Vector3.zero;
     private bool finished = false;
-
+    private int deliveryFlags;
+    
     [SerializeField]
     private string type;
     [SerializeField]
@@ -28,8 +28,6 @@ public class Character : MonoBehaviour
 
     private void Awake()
     {
-        gamecontrol = GameObject.Find("GameControl").GetComponent<LevelGameControl>();
-
         waypointPrefab = (GameObject)Resources.Load("Prefabs/Waypoint");
         rb = gameObject.GetComponent<Rigidbody>();
 
@@ -98,7 +96,7 @@ public class Character : MonoBehaviour
 
 			if (!hit) return;
 
-			if (!drawingLine && !gamecontrol.currentlyDrawing && hitInfo.collider.gameObject.Equals(gameObject))
+			if (!drawingLine && hitInfo.collider.gameObject.Equals(gameObject))
 			{
 				foreach (GameObject wp in waypoints) {
 					Destroy(wp);
@@ -106,8 +104,7 @@ public class Character : MonoBehaviour
 				waypoints.Clear();
 				waypoints.Add(Instantiate(waypointPrefab, Helpers.Vector3To2(hitInfo.point), Quaternion.identity));
 				drawingLine = true;
-                gamecontrol.currentlyDrawing = true;
-            }
+			}
 			else if (drawingLine && waypoints.Count > 0 && Vector3.Distance(waypoints[waypoints.Count - 1].transform.position, hitInfo.point) > .5f)
 			{
 				waypoints.Add(Instantiate(waypointPrefab, Helpers.Vector3To2(hitInfo.point), Quaternion.identity));
@@ -115,8 +112,7 @@ public class Character : MonoBehaviour
 		}
 		else if (drawingLine) {
 			drawingLine = false;
-            gamecontrol.currentlyDrawing = false;
-        }
+		}
 	}
         //  Moves the player.
     void FixedUpdate()
@@ -149,20 +145,29 @@ public class Character : MonoBehaviour
 
     void OnTriggerEnter(Collider collision)
     {
-        if(collision.gameObject.CompareTag("Flag") && collision.gameObject.GetComponent<Flag>().getColor().Equals(color)){
-            foreach(GameObject waypoint in waypoints)
-			{
-                Destroy(waypoint);
-			}
-            waypoints.Clear();
-            finished = true;
-            gamecontrol.checkIfWon();
-            gameObject.SetActive(false);
+        if (collision.gameObject.CompareTag("Flag") && collision.gameObject.GetComponent<Flag>().getColor().Equals(color))
+        {
+            if (type.Equals("delivery") && deliveryFlags == 1 || !type.Equals("delivery"))
+            {
+                foreach (GameObject waypoint in waypoints)
+                {
+                    Destroy(waypoint);
+                }
+                waypoints.Clear();
+                finished = true;
+                GameObject.Find("GameControl").GetComponent<LevelGameControl>().checkIfWon();
+                gameObject.SetActive(false);
+
+            }
+            else if(type.Equals("delivery") && deliveryFlags == 0)
+            {
+                deliveryFlags++;
+            }
         }
         else
-		{
-			moveVector = rb.velocity;
-		}
+        {
+            moveVector = rb.velocity;
+        }
     }
     void OnCollisionEnter(Collision collision)
 	{
@@ -180,7 +185,7 @@ public class Character : MonoBehaviour
 			}
 
 
-            gamecontrol.levelLost();
+            GameObject.Find("GameControl").GetComponent<LevelGameControl>().levelLost();
         }
 	}
 }
