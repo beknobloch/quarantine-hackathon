@@ -182,7 +182,7 @@ public class Character : MonoBehaviour
             {
                 radius = radius * 2;
                 sinked = false;
-                rend.color = color.red;
+                rend.color = Color.red;
             }
         }
         //sneezing person
