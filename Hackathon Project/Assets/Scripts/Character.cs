@@ -207,6 +207,7 @@ public class Character : MonoBehaviour
                 waypoints.Clear();
                 finished = true;
                 gameObject.SetActive(false);
+                gamecontrol.checkIfWon();
 
             }
             else if(type.Equals("delivery") && deliveryFlags == 0)
