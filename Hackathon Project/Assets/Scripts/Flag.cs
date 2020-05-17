@@ -11,7 +11,9 @@ public class Flag : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.tag == "character" && collision.gameObject.tag == color){
+            Debug.Log("Nice");
         }
+        
     }
 
     public string getColor(){

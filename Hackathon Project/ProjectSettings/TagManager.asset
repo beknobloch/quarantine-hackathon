@@ -8,6 +8,9 @@ TagManager:
   - Character
   - Flag
   - Wall
+  - Hand Sanitizer
+  - Toilet Paper
+  - Sink
   layers:
   - Default
   - TransparentFX

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1866559159304353925}
   - component: {fileID: 8526350510559930155}
   m_Layer: 0
-  m_Name: Flag Red 1
+  m_Name: Flag Red
   m_TagString: Flag
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -94,8 +94,8 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 13.525121
-  m_Center: {x: 4.164119, y: 1.8110352, z: 0}
+  m_Radius: 8.658752
+  m_Center: {x: 6.000222, y: 4.870102, z: 0}
 --- !u!114 &8526350510559930155
 MonoBehaviour:
   m_ObjectHideFlags: 0
