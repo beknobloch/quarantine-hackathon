@@ -13,7 +13,8 @@ public class Character : MonoBehaviour
     private bool drawingLine = false;
     private Vector3 moveVector = Vector3.zero;
     private bool finished = false;
-
+    private int deliveryFlags;
+    
     [SerializeField]
     private string type;
     [SerializeField]
@@ -119,20 +120,29 @@ public class Character : MonoBehaviour
 
     void OnTriggerEnter(Collider collision)
     {
-        if(collision.gameObject.CompareTag("Flag") && collision.gameObject.GetComponent<Flag>().getColor().Equals(color)){
-            foreach(GameObject waypoint in waypoints)
-			{
-                Destroy(waypoint);
-			}
-            waypoints.Clear();
-            finished = true;
-            GameObject.Find("GameControl").GetComponent<LevelGameControl>().checkIfWon();
-            gameObject.SetActive(false);
+        if (collision.gameObject.CompareTag("Flag") && collision.gameObject.GetComponent<Flag>().getColor().Equals(color))
+        {
+            if (type.Equals("delivery") && deliveryFlags == 1 || !type.Equals("delivery"))
+            {
+                foreach (GameObject waypoint in waypoints)
+                {
+                    Destroy(waypoint);
+                }
+                waypoints.Clear();
+                finished = true;
+                GameObject.Find("GameControl").GetComponent<LevelGameControl>().checkIfWon();
+                gameObject.SetActive(false);
+
+            }
+            else if(type.Equals("delivery") && deliveryFlags == 0)
+            {
+                deliveryFlags++;
+            }
         }
         else
-		{
-			moveVector = rb.velocity;
-		}
+        {
+            moveVector = rb.velocity;
+        }
     }
     void OnCollisionEnter(Collision collision)
 	{
