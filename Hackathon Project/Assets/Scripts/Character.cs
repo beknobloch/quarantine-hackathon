@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Rigidbody))]
 public class Character : MonoBehaviour
@@ -11,11 +12,14 @@ public class Character : MonoBehaviour
     private Rigidbody rb;
     private bool drawingLine = false;
     private Vector3 moveVector = Vector3.zero;
+    private bool finished = false;
 
     [SerializeField]
     private string type;
     [SerializeField]
     private string color;
+    [SerializeField]
+    private float timeBeforeSpawn;
 
 
     private void Awake()
@@ -80,19 +84,49 @@ public class Character : MonoBehaviour
     public string getColor(){
         return color;
     }
+    public bool getFinished()
+	{
+        return finished;
+	}
+    public void stop()
+	{
+        speed = 0;
+	}
 
     void OnTriggerEnter(Collider collision)
     {
         if(collision.gameObject.CompareTag("Flag") && collision.gameObject.GetComponent<Flag>().getColor().Equals(color)){
+            foreach(GameObject waypoint in waypoints)
+			{
+                Destroy(waypoint);
+			}
+            waypoints.Clear();
+            finished = true;
             gameObject.SetActive(false);
-        }
-        else if(collision.gameObject.tag == "Character"){
-            //Lose level
-            GameObject.Find("LosePanel").SetActive(true);
+            GameObject.Find("GameControl").GetComponent<LevelGameControl>().checkIfWon();
         }
         else
 		{
 			moveVector = rb.velocity;
 		}
     }
+    void OnCollisionEnter(Collision collision)
+	{
+		if (collision.gameObject.CompareTag("Character"))
+		{
+            //Lose level
+            try
+            {
+                collision.gameObject.GetComponent<Character>().stop();
+                stop();
+			}
+			catch
+			{
+
+			}
+
+
+            GameObject.Find("GameControl").GetComponent<LevelGameControl>().levelLost();
+        }
+	}
 }
