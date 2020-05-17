@@ -5,7 +5,10 @@ using System;
 
 [RequireComponent(typeof(Rigidbody))]
 public class Character : MonoBehaviour
-{   
+{
+
+    GameObject gamecontrol = GameObject.Find("GameControl").GetComponent<LevelGameControl>();
+
     private float DEF_SPEED;
 
     private float DEF_RADIUS;
@@ -130,7 +133,7 @@ public class Character : MonoBehaviour
 
 			if (!hit) return;
 
-			if (!drawingLine && hitInfo.collider.gameObject.Equals(gameObject))
+			if (!drawingLine && !gamecontrol.currentlyDrawing && hitInfo.collider.gameObject.Equals(gameObject))
 			{
 				foreach (GameObject wp in waypoints) {
 					Destroy(wp);
@@ -138,14 +141,16 @@ public class Character : MonoBehaviour
 				waypoints.Clear();
 				waypoints.Add(Instantiate(waypointPrefab, Helpers.Vector3To2(hitInfo.point), Quaternion.identity));
 				drawingLine = true;
+                gamecontrol.currentlyDrawing = true;
 			}
-			else if (drawingLine && waypoints.Count > 0 && Vector3.Distance(waypoints[waypoints.Count - 1].transform.position, hitInfo.point) > .5f)
+			else if (drawingLine && gamecontrol.currentlyDrawing && waypoints.Count > 0 && Vector3.Distance(waypoints[waypoints.Count - 1].transform.position, hitInfo.point) > .5f)
 			{
 				waypoints.Add(Instantiate(waypointPrefab, Helpers.Vector3To2(hitInfo.point), Quaternion.identity));
 			}
 		}
 		else if (drawingLine) {
 			drawingLine = false;
+            gamecontrol.currentlyDrawing = false;
 		}
 
 
@@ -196,7 +201,7 @@ public class Character : MonoBehaviour
                 }
                 waypoints.Clear();
                 finished = true;
-                GameObject.Find("GameControl").GetComponent<LevelGameControl>().checkIfWon();
+                gamecontrol.checkIfWon();
                 gameObject.SetActive(false);
 
             }
@@ -256,7 +261,7 @@ public class Character : MonoBehaviour
 			}
 
 
-            GameObject.Find("GameControl").GetComponent<LevelGameControl>().levelLost();
+            gamecontrol.levelLost();
         }
         else{
             moveVector = rb.velocity;
