@@ -4,7 +4,7 @@ using System.Collections.Generic;
 [RequireComponent(typeof(Rigidbody))]
 public class Character : MonoBehaviour
 {
-    private float speed = 32;
+    private float speed = 64;
     private float radius = 0;
     private List<GameObject> waypoints = new List<GameObject>();
     private GameObject waypointPrefab;
@@ -81,9 +81,9 @@ public class Character : MonoBehaviour
         return color;
     }
 
-    void OnCollisionEnter(Collision collision)
+    void OnTriggerEnter(Collider collision)
     {
-        if(collision.gameObject.tag == "Flag" && collision.gameObject.GetComponent<Flag>().getColor() == color){
+        if(collision.gameObject.CompareTag("Flag") && collision.gameObject.GetComponent<Flag>().getColor().Equals(color)){
             gameObject.SetActive(false);
         }
         else if(collision.gameObject.tag == "Character"){
