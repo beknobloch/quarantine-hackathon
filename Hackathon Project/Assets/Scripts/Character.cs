@@ -21,6 +21,9 @@ public class Character : MonoBehaviour
     private string color;
     [SerializeField]
     private float timeBeforeSpawn;
+    [SerializeField]
+    private string startingDirection;
+    private Vector3 startingVector;
 
 
     private void Awake()
@@ -59,10 +62,32 @@ public class Character : MonoBehaviour
             speed = 25;
             radius = 1f;
         }
+
+        if(startingDirection == "left")
+		{
+            startingVector = Vector3.left;
+		}
+        else if(startingDirection == "up")
+		{
+            startingVector = Vector3.up;
+		}
+        else if(startingDirection == "right")
+		{
+            startingVector = Vector3.right;
+		}
+		else
+		{
+            startingVector = Vector3.down;
+		}
     }
 
 	void Update()
 	{
+        //  Determines when to move the character into the screen.
+        if(Time.timeSinceLevelLoad >= timeBeforeSpawn)
+		{
+            rb.velocity = startingVector;
+        }
 
 		//  Creates waypoints.
 		if (Input.GetMouseButton(0))
