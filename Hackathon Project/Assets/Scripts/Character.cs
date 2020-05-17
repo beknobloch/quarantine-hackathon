@@ -94,7 +94,7 @@ public class Character : MonoBehaviour
             DEF_RADIUS = 0;
         }
 
-        speed = DEF_SPEED;
+        speed = DEF_SPEED * 35;
         radius = DEF_RADIUS;
 
         if(startingDirection.Equals("left"))
@@ -144,7 +144,7 @@ public class Character : MonoBehaviour
 				drawingLine = true;
                 gamecontrol.currentlyDrawing = true;
 			}
-			else if (drawingLine && gamecontrol.currentlyDrawing && waypoints.Count > 0 && Vector3.Distance(waypoints[waypoints.Count - 1].transform.position, hitInfo.point) > .5f)
+			else if (drawingLine && gamecontrol.currentlyDrawing && waypoints.Count > 0 && Vector3.Distance(waypoints[waypoints.Count - 1].transform.position, hitInfo.point) > 15f)
 			{
 				waypoints.Add(Instantiate(waypointPrefab, Helpers.Vector3To2(hitInfo.point), Quaternion.identity));
 			}
@@ -167,7 +167,7 @@ public class Character : MonoBehaviour
         if(waypoints.Count > 0){
             moveVector = waypoints[0].transform.position - transform.position;
             if(waypoints.Count > 1 || (waypoints.Count == 1 && !drawingLine)){
-                if(moveVector.magnitude < .25){
+                if(moveVector.magnitude < 15){
                     Destroy(waypoints[0]);
                     waypoints.RemoveAt(0);
                 }
